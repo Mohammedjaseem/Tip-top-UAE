@@ -52,6 +52,7 @@
             font-size: 48px;
             font-weight: 700;
             color: #0a72ef;
+            transition: color 0.5s ease;
         }
 
         .single_counter p {
@@ -59,11 +60,7 @@
             color: #333;
         }
 
-        .counter_area .single_counter h2 {
-            transition: all 0.5s ease;
-        }
-
-        .counter_area .single_counter:hover h2 {
+        .single_counter:hover h2 {
             color: #f37b21;
         }
 
@@ -293,24 +290,24 @@
 
 
     <!-- counter_area_start -->
-    <div class="counter_area" style="margin-top: 50px; padding-bottom: 50px;">
+    <div class="counter_area">
         <div class="container">
             <div class="row text-center">
                 <div class="col-xl-4 col-md-4">
                     <div class="single_counter">
-                        <h2 class="counter" data-target="20"></h2>
+                        <h2 class="counter" id="counter1">20</h2>
                         <p>Years of Experience</p>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-4">
                     <div class="single_counter">
-                        <h2 class="counter" data-target="900"></h2>
+                        <h2 class="counter" id="counter2">900</h2>
                         <p>Projects Completed</p>
                     </div>
                 </div>
                 <div class="col-xl-4 col-md-4">
                     <div class="single_counter">
-                        <h2 class="counter" data-target="100"></h2>
+                        <h2 class="counter" id="counter3">100</h2>
                         <p>Clients</p>
                     </div>
                 </div>
@@ -922,67 +919,48 @@ Copyright &copy;<script data-cfasync="false"></script><script>document.write(new
 </script>
 <!-- Add the counter-up JS logic -->
 
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const counters = document.querySelectorAll('.counter');
-        const speed = 200; // Adjust speed to control the counter's animation pace
-
-        const startCounter = (counter) => {
-            const target = +counter.getAttribute('data-target');
-            let count = 0;
-
-            // Ensure the counter starts with an empty string instead of '0'
-            counter.innerText = '';
-
-            const updateCounter = () => {
-                const increment = target / speed;
-                if (count < target) {
-                    count += increment;
-                    counter.innerText = Math.ceil(count);
-                    setTimeout(updateCounter, 50);
-                } else {
-                    counter.innerText = target; // Ensure the final value is correct
-                }
-            };
-            updateCounter();
-        };
-
-        // Use IntersectionObserver to start the counter when it becomes visible
-        const observerOptions = {
-            threshold: 0.5 // Trigger when 50% of the counter is visible
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const counter = entry.target;
-                    startCounter(counter);
-                    observer.unobserve(counter); // Stop observing once animation starts
-                }
-            });
-        }, observerOptions);
-
-        counters.forEach(counter => {
-            observer.observe(counter);
-        });
-    });
-</script>
-
-
-
+<!-- <script>
+    window.onload = function() {
+        // Function to start counting
+        function startCounting(elementId, start = 1, end = 1000, interval = 1000) {
+            let current = start;
     
+            const counterElement = document.getElementById(elementId);
+    
+            if (!counterElement) {
+                console.error(`Element with ID '${elementId}' not found.`);
+                return;
+            }
+    
+            // Initialize the counter with the starting value to avoid flickering
+            counterElement.textContent = current;
+    
+            const intervalId = setInterval(() => {
+                current++;
+                counterElement.textContent = current;
+    
+                if (current >= end) {
+                    clearInterval(intervalId);
+                }
+            }, interval);
+    
+            console.log(`Counting started for #${elementId} from ${start} to ${end}`);
+        }
+    
+        // Call the function for the three counters
+        startCounting('counter1', 1, 100, 50);
+        startCounting('counter2', 1, 200, 50);
+        startCounting('counter3', 1, 200, 50);
+    };
+    
+</script> -->
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
 
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'UA-23581568-13');
-</script>
+
+
+
+
 
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"8d584a492fe4f34b","version":"2024.10.1","serverTiming":{"name":{"cfExtPri":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"token":"cd0b4b3a733644fc843ef0b185f98241","b":1}' crossorigin="anonymous"></script>
 </body>
