@@ -37,6 +37,38 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
+    <style>
+        /* Counter Area Styles */
+        .counter_area {
+            background-color: #f9f9f9;
+            padding: 60px 0;
+        }
+
+        .single_counter {
+            margin-bottom: 30px;
+        }
+
+        .single_counter h2 {
+            font-size: 48px;
+            font-weight: 700;
+            color: #0a72ef;
+        }
+
+        .single_counter p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .counter_area .single_counter h2 {
+            transition: all 0.5s ease;
+        }
+
+        .counter_area .single_counter:hover h2 {
+            color: #f37b21;
+        }
+
+    </style>
+
   
     
 </head>
@@ -257,6 +289,37 @@
         </div>
     </div >
     <!-- about_area_end  -->
+
+
+
+    <!-- counter_area_start -->
+    <div class="counter_area" style="margin-top: 50px; padding-bottom: 50px;">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h2 class="counter" data-target="20"></h2>
+                        <p>Years of Experience</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h2 class="counter" data-target="900"></h2>
+                        <p>Projects Completed</p>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-4">
+                    <div class="single_counter">
+                        <h2 class="counter" data-target="100"></h2>
+                        <p>Clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- counter_area_end -->
+
+
 
     <!-- service_area_start  -->
     <div class="service_area" id="services" >
@@ -857,6 +920,58 @@ Copyright &copy;<script data-cfasync="false"></script><script>document.write(new
         });
         
 </script>
+<!-- Add the counter-up JS logic -->
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; // Adjust speed to control the counter's animation pace
+
+        const startCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+
+            // Ensure the counter starts with an empty string instead of '0'
+            counter.innerText = '';
+
+            const updateCounter = () => {
+                const increment = target / speed;
+                if (count < target) {
+                    count += increment;
+                    counter.innerText = Math.ceil(count);
+                    setTimeout(updateCounter, 50);
+                } else {
+                    counter.innerText = target; // Ensure the final value is correct
+                }
+            };
+            updateCounter();
+        };
+
+        // Use IntersectionObserver to start the counter when it becomes visible
+        const observerOptions = {
+            threshold: 0.5 // Trigger when 50% of the counter is visible
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    startCounter(counter);
+                    observer.unobserve(counter); // Stop observing once animation starts
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    });
+</script>
+
+
+
     
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
